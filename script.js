@@ -64,7 +64,8 @@ generateBtn.addEventListener('click', () => {
 
     // Create new Image object
     const img = new Image();
-    img.src = `https://source.unsplash.com/500x300/?${encodeURIComponent(prompt)}`;
+    // Add timestamp to avoid caching and make load more reliable
+    img.src = `https://source.unsplash.com/500x300/?${encodeURIComponent(prompt)}&t=${Date.now()}`;
     img.alt = "Generated Image";
 
     img.onload = () => {
