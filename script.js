@@ -51,3 +51,36 @@ function updateGallery() {
         gallery.appendChild(img);
     });
 }
+
+generateBtn.addEventListener('click', () => {
+    const prompt = document.getElementById('promptInput').value.trim();
+    if(!prompt) {
+        imageContainer.innerHTML = "<p>Please enter a prompt!</p>";
+        return;
+    }
+
+    // Show loader
+    imageContainer.innerHTML = `<div class="loader"></div>`;
+
+    // Create new Image object
+    const img = new Image();
+    img.src = `https://source.unsplash.com/500x300/?${encodeURIComponent(prompt)}`;
+    img.alt = "Generated Image";
+
+    img.onload = () => {
+        // Replace loader with actual image and download button
+        imageContainer.innerHTML = `
+            <img src="${img.src}" alt="Generated Image">
+            <br>
+            <button class="download-btn" onclick="downloadImage('${img.src}')">Download Image</button>
+        `;
+
+        // Add to gallery
+        generatedImages.unshift(img.src);
+        updateGallery();
+    };
+
+    img.onerror = () => {
+        imageContainer.innerHTML = "<p>Failed to load image. Try another prompt.</p>";
+    };
+});
